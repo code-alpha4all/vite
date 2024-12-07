@@ -4,7 +4,7 @@ import * as fb from "../firebase";
 import _ from "lodash";
 import { bus } from '@/main';
 
-const basicChartInputNew = () => import("@/components/programs/BasicChartNew/basic-chart-input-new");
+/*const basicChartInputNew = () => import("@/components/programs/BasicChartNew/basic-chart-input-new");
 // const basicChartInputTest = () => import("@/components/programs/BasicChartTest/basic-chart-input-test");
 const stockChartInput = () => import("@/components/programs/StockChart/stock-chart-input");
 const calculatorInput = () => import("@/components/programs/Calculator/calculator-input");
@@ -45,7 +45,7 @@ import { tradeExplorerInitialState } from "@/components/programs/TradeExplorer/t
 import { portfolioInitialState } from "@/components/programs/Portfolio/portfolio-initial-state";
 import { savedChartsAdminInitialState } from "@/components/programs/SavedChartsAdmin/saved-charts-admin-initial-state";
 import { quotesInitialState } from "@/components/programs/Quotes/quotes-initial-state";
-
+*/
 import store from "@/store";
 
 const { inspect } = require('util');
@@ -1928,6 +1928,7 @@ let storeTab = _.debounce(function (form, email) {
     // console.trace();
     // console.log("this.activeModuleJson=", this.activeModuleJson);
     // console.log("this.activeModuleName=", this.activeModuleName);
+
     bus.$emit("setChartHeight");
 
     let generalForm = JSON.parse(JSON.stringify(form));
