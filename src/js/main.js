@@ -2,7 +2,8 @@ import $ from "jquery";
 import moment from 'moment';
 import * as fb from "../firebase";
 import _ from "lodash";
-import { bus } from '@/main';
+// import { bus } from '@/main';
+import emitter from '@/eventBus.js';
 
 /*const basicChartInputNew = () => import("@/components/programs/BasicChartNew/basic-chart-input-new");
 // const basicChartInputTest = () => import("@/components/programs/BasicChartTest/basic-chart-input-test");
@@ -48,11 +49,11 @@ import { quotesInitialState } from "@/components/programs/Quotes/quotes-initial-
 */
 import store from "@/store";
 
-const { inspect } = require('util');
-const transform = require('lodash.transform');
+//const { inspect } = require('util');
+/*const transform = require('lodash.transform');
 const isEqual = require('lodash.isequal');
 const isArray = require('lodash.isarray');
-const isObject = require('lodash.isobject');
+const isObject = require('lodash.isobject');*/
 
 const symbolArray = [
     { eod: "TY", barchart: "ZN", ib: "ZN", tickSize: 0.015625 },
@@ -1929,7 +1930,7 @@ let storeTab = _.debounce(function (form, email) {
     // console.log("this.activeModuleJson=", this.activeModuleJson);
     // console.log("this.activeModuleName=", this.activeModuleName);
 
-    bus.$emit("setChartHeight");
+    emitter.$emit("setChartHeight");
 
     let generalForm = JSON.parse(JSON.stringify(form));
     if (generalForm !== null) {
@@ -2024,7 +2025,7 @@ export {
     bfs, contractDigits, groupsObject, getGroup, yearToColor, spreadToColor, monthToColor, changeCommodityLeg, allCommodityContracts,
     createContractLists, listOptions, listTickerOptions, listOpenTickerOptions, listClosedTickerOptions, nearestOpenSpread,
     nearestOpenSpreadOrLatestClosedSpread, getProgramComposition, programCompositionArray, storeTab, displayCommodity, difference,
-    inspect, compareContracts, isCommodity, symbolConverter, tickerConverter, getSymbolArray, symbolArray,
+    /*inspect,*/ compareContracts, isCommodity, symbolConverter, tickerConverter, getSymbolArray, symbolArray,
     contractConverter, getSymbolSetsOfCompleteContractName, getSymbolSetsOfCompleteTicker, enumerateDaysBetweenDates,
     loadBrowserSideOnlyData, displayMoneyFormat, transformLegacyState
 };

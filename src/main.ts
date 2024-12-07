@@ -23,8 +23,6 @@ import axios from "axios";
 import store from "@/store";
 import { setCommoditiesArray } from "@/js/main";
 
-export const bus = new Vue();
-
 let url = "https://storage.googleapis.com/authentication-f0d7e.appspot.com/siteData/commoditiesArray.json";
 axios.get(url).then((apiResponse) => {
  // console.log("apiResponse=", apiResponse);
@@ -36,6 +34,7 @@ axios.get(url).then((apiResponse) => {
 
 
 const app = createApp(App);
+app.use(store);
 
 app.use(createPinia());
 app.use(router);
