@@ -1,0 +1,183 @@
+//import Vue from "vue";
+import Router from "vue-router";
+//import { auth } from "./firebase";
+import store from "@/store";
+import * as fb from "@/firebase";
+import generalForm from "@/store/generalFormModule";
+const axios = require("axios");
+//import Dashboard from '@/view/pages/Dashboard';
+
+const routes = [
+  {
+    path: "/",
+    component: () => import("@/view/layout/Layout"),
+    meta: { requiresAuth: true },
+    children: [
+    /*  {
+        path: "/",
+        component: Dashboard,
+        meta: { breadcrumb: "Tabs" },
+      },
+      {
+        path: "/tabs",
+        component: Dashboard,
+        meta: { breadcrumb: "Tabs" },
+      },*/
+      {
+        path: "/admin",
+        component: () => import("@/view/pages/Admin"),
+        meta: { breadcrumb: "Users" },
+      },
+      {
+        path: "/landing",
+        component: () => import("@/view/pages/Landing"),
+        meta: { breadcrumb: "Home" },
+      },
+      {
+        path: "/exercises",
+        component: () => import("@/view/pages/Exercises"),
+        meta: { breadcrumb: "Exercises" },
+      },
+      {
+        path: "/playback",
+        component: () => import("@/view/pages/Playback"),
+        meta: { breadcrumb: "Playback" },
+      }
+    ],
+  },
+  { path: "/auth", component: () => import("@/view/pages/Auth") },
+  { path: "/success", component: () => import("@/view/pages/Success") },
+  { path: "/cancel", component: () => import("@/view/pages/Cancel") },
+];
+
+Vue.use(Router);
+
+const router = new Router({
+  mode: "history",
+  routes,
+});
+
+router.beforeEach((to, from, next) => {
+  let unsubscribe = fb.auth.onAuthStateChanged((firebaseUser) => {
+    // console.log("firebaseUser=", firebaseUser);
+    //  console.log("to=", to);
+    //  console.log("from=", from);
+    unsubscribe();
+
+    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    // console.log("requiresAuth=", requiresAuth);
+    const isAuthenticated = fb.auth.currentUser;
+
+    if (firebaseUser) {
+      firebaseUser.getIdTokenResult()
+                    .then(({claims}) => {
+                       // console.log("claims=", claims);
+                        store.commit("user/setUid", claims.user_id);
+                    }); 
+
+      store.dispatch("user/fetchUserProfile", firebaseUser).then(user => {
+     // console.log("then of fetchUserProfile, user=", user, " store.state.tabsInitialized=", store.state.tabsInitialized);
+
+        if (!store.state.tabsInitialized) {
+          store.commit("setTabsInitialized", true);   
+   
+          fb.db.collection("tabs").doc(user.email).collection("tabs")
+            .get().then((querySnapshot) => {
+              const stateArray = querySnapshot.docs.map((doc) => doc.data()).sort((a, b) => parseInt(a.moduleName.replace("generalFormTab", "")) > parseInt(b.moduleName.replace("generalFormTab", ""))? 1 : -1);
+              console.log("stateArray=", JSON.parse(JSON.stringify(stateArray)));
+
+              stateArray.forEach((module) => {
+               // console.log("module.moduleName=", module.moduleName);
+                //  console.log("module.tabTitle=", module.tabTitle);
+
+                if (typeof store.state !== "undefined" && module.sampleContract.length > 0) {
+                  store.registerModule(module.moduleName, generalForm);
+                  store.commit(module.moduleName + "/setGeneralForm", module);
+                  store.commit(module.moduleName + "/setModuleName", module.moduleName);  // This seems unnecessary.
+                  store.commit(module.moduleName + "/setConstrainSampleContract", false);
+                  store.dispatch(module.moduleName + "/getContractListsFromServer");
+
+              /*    let index = store.getters["moduleNameArray"].length-1;
+                  console.log("index=", index);
+                  
+                  setTimeout(() => {
+                      store.commit("setActiveModuleIndex", index);
+                  }, 1000);*/
+                }
+              });          
+            });              
+        }
+
+        if (!["subscriber", "admin", "superadmin"].includes(user.role) && ["/exercises", "/playback"].includes(to.path)) {
+          console.log("Going to landing page.");
+          return next({ path: "/landing" });
+        }
+
+        if (!["superadmin"].includes(user.role) && ["/admin"].includes(to.path)) {
+          console.log("Going to landing page.");
+          return next({ path: "/landing" });
+        }
+
+        if ("subscriber" == user.role) {
+          // Check Subscription
+          var hasActiveSub = false;
+          var subs = user.subscriptions;
+          if (subs != undefined) {
+            subs.forEach((el) => {
+              let subData = el.data;
+              if (el.name == "scarrcharts") {
+                subData.forEach((el2) => {
+                  let expirationDate = new Date(el2.expDate.seconds * 1000);
+                  expirationDate.setDate(expirationDate.getDate() + 1);
+                  let today = new Date();
+                  if (!hasActiveSub && expirationDate >= today) {
+                    hasActiveSub = true;
+                  }
+                });
+              }
+            });
+          }
+          if (!hasActiveSub) {
+            store.commit("user/setRole", "guest");
+          } else {
+            // IT'S NECESSARY - DON'T REMOVE
+            store.commit("user/setRole", "subscriber");
+          }
+        }
+
+        if (requiresAuth && !isAuthenticated) {
+          next("/auth");
+        } else {
+          //  console.log("to.query.storageID=", to.query.storageID);
+
+          if (typeof to.query.storageID !== "undefined") {
+            let storage = fb.storage;
+            let path = to.query.storageID + ".json";
+            let pathReference = storage.ref(path);
+            // console.log("pathReference=", pathReference);
+
+            pathReference.getDownloadURL().then((url) => {
+              console.log("url=", url);
+              axios.get(url).then((apiResponse) => {
+                // store.commit('decrementNumberOfAjaxCalls');
+                console.log("apiResponse=", apiResponse);
+                let data = apiResponse.data;
+                console.log(" data=", data);
+              });
+            });
+          }
+
+          next();
+        }
+      });
+    } else {
+      if (requiresAuth && !isAuthenticated) {
+        next("/auth");
+      } else {
+        next();
+      }
+    }
+  });
+});
+
+export default router;
