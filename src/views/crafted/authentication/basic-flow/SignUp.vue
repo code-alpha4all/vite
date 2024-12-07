@@ -13,6 +13,7 @@
       <div class="mb-10 text-center">
         <!--begin::Title-->
         <h1 class="text-gray-900 mb-3">Create an Account</h1>
+       
         <!--end::Title-->
 
         <!--begin::Link-->

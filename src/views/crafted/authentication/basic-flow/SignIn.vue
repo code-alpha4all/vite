@@ -20,10 +20,14 @@
           New Here?
 
           <router-link to="/sign-up" class="link-primary fw-bold">
-            Create an Account
+            Create an Account 
           </router-link>
         </div>
         <!--end::Link-->
+      </div>
+
+      <div>
+        $store.state.user:{{ $store.state.user }}
       </div>
       <!--begin::Heading-->
 
