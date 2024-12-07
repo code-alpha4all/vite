@@ -19,6 +19,19 @@ import { initKtIcon } from "@/core/plugins/keenthemes";
 
 import "@/core/plugins/prismjs";
 
+import axios from "axios";
+import store from "@/store";
+
+let url = "https://storage.googleapis.com/authentication-f0d7e.appspot.com/siteData/commoditiesArray.json";
+axios.get(url).then((apiResponse) => {
+ // console.log("apiResponse=", apiResponse);
+  let commoditiesArray = apiResponse.data;
+  console.log("commoditiesArray=", JSON.parse(JSON.stringify(commoditiesArray)));
+
+  store.commit('siteData/setFullCommoditiesArray', commoditiesArray);
+  setCommoditiesArray(store.getters["siteData/commoditiesArray"]);
+
+
 const app = createApp(App);
 
 app.use(createPinia());
@@ -38,3 +51,5 @@ app.directive("tooltip", (el) => {
 });
 
 app.mount("#app");
+
+});
