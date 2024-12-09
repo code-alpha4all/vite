@@ -8,6 +8,7 @@ import { useConfigStore } from "@/stores/config";
 import * as fb from "@/firebase";
 import { auth } from "@/firebase";
 import store from "@/store";
+import generalForm from "@/store/generalFormModule";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -133,7 +134,7 @@ const router = createRouter({
   },
 });
 
-/*router.beforeEach((to, from, next) => {
+router.beforeEach((to, from, next) => {
   let unsubscribe = fb.auth.onAuthStateChanged((firebaseUser) => {
     console.log("firebaseUser=", firebaseUser);
     console.log("to=", to);
@@ -157,16 +158,34 @@ const router = createRouter({
         console.log("then of fetchUserProfile, user=", user, " store.state.tabsInitialized=", store.state.tabsInitialized);
 
         if (!store.state.tabsInitialized) {
-          store.commit("setTabsInitialized", true);
-
+          store.commit("setTabsInitialized", true);   
+   
           fb.db.collection("tabs").doc(user.email).collection("tabs")
             .get().then((querySnapshot) => {
-              const stateArray = querySnapshot.docs.map((doc) => doc.data()).sort((a, b) => parseInt(a.moduleName.replace("generalFormTab", "")) > parseInt(b.moduleName.replace("generalFormTab", "")) ? 1 : -1);
+              const stateArray = querySnapshot.docs.map((doc) => doc.data()).sort((a, b) => parseInt(a.moduleName.replace("generalFormTab", "")) > parseInt(b.moduleName.replace("generalFormTab", ""))? 1 : -1);
               console.log("stateArray=", JSON.parse(JSON.stringify(stateArray)));
-            });
 
+              stateArray.forEach((module) => {
+               // console.log("module.moduleName=", module.moduleName);
+                //  console.log("module.tabTitle=", module.tabTitle);
 
-        } 
+                if (typeof store.state !== "undefined" && module.sampleContract.length > 0) {
+                  store.registerModule(module.moduleName, generalForm);
+                  store.commit(module.moduleName + "/setGeneralForm", module);
+                  store.commit(module.moduleName + "/setModuleName", module.moduleName);  // This seems unnecessary.
+                  store.commit(module.moduleName + "/setConstrainSampleContract", false);
+                  store.dispatch(module.moduleName + "/getContractListsFromServer");
+
+              /*    let index = store.getters["moduleNameArray"].length-1;
+                  console.log("index=", index);
+                  
+                  setTimeout(() => {
+                      store.commit("setActiveModuleIndex", index);
+                  }, 1000);*/
+                }
+              });          
+            });              
+        }
 
       });
     }else {
@@ -179,7 +198,7 @@ const router = createRouter({
       }
     }
   });
-});*/
+});
 
 /*router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
