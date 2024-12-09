@@ -1,4 +1,7 @@
 const i18nService = {
+  test: (function(){ 
+    console.log('i18nService starting. process.env.BASE_URL + "media/svg/flags/226-united-states.svg"=', process.env.BASE_URL + "media/svg/flags/226-united-states.svg");
+  })(),
   defaultLanguage: "en",
 
   languages: [

@@ -1,11 +1,10 @@
 <template>
 <div>
   <ul class="navi navi-hover py-4" style="margin: 0px 0 0 -15px">
-    <template v-for="(item, i) in languages">
+    <template v-for="(item, i) in languages" :key="i">
       <li
         class="navi-item"
         :class="{ 'navi-item-active': isActiveLanguage(item.lang) }"
-        :key="i"
       >
         <a
           href="#"

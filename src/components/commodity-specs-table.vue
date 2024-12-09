@@ -66,7 +66,7 @@
 
 <style scoped>
    
-   ::v-deep .commodity-specs-table td{
+   ::deep(.commodity-specs-table td){
         color: black;
         padding: 1px 2px 0px 2px;
     }

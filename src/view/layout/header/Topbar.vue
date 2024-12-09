@@ -435,7 +435,7 @@
             no-repeat right 0.75rem center/8px 10px !important;
     }
 
-    ::v-deep .my-class .dropdown-menu {
+    ::deep(.my-class .dropdown-menu){
         margin: 10px 20px 0 -550px;
         max-height: 600px;
         overflow-y: auto;
@@ -449,15 +449,15 @@
     import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
     import * as fb from "@/firebase";
     import { StripeCheckout } from "@vue-stripe/vue-stripe";
-    //import i18nService from "@/core/services/i18n.service.js";
-    import loadingIndicator from "@/components/loading-indicator";
-    import { Icon } from '@iconify/vue2';
-    import commoditySpecsTable from '@/components/commodity-specs-table';
-    import monthsTable from '@/components/months-table';
-    import memoryMonitor from '@/components/memory-monitor';
+    import i18nService from "@/core/services/i18n.service.js";
+    import loadingIndicator from "@/components/loading-indicator.vue";
+    import { Icon } from '@iconify/vue';
+    import commoditySpecsTable from '@/components/commodity-specs-table.vue';
+    import monthsTable from '@/components/months-table.vue';
+    import memoryMonitor from '@/components/memory-monitor.vue';
     import Dropdown from 'v-dropdown';
     import { VueTreeList, Tree } from 'vue-tree-list';
-    import support from '@/components/support';
+    import support from '@/components/support.vue';
     import { createInitialState } from '@/js/createInitialState.js';
 
     const STRIPE_PK_KEY = "";
