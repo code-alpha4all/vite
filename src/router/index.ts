@@ -255,7 +255,7 @@ router.beforeEach((to, from, next) => {
       console.log("else starting.");
       if (requiresAuth && !isAuthenticated) {
         console.log("redirecting to auth.");
-       // next("/auth");
+        next("/auth");
       } else {
         next();
       }
