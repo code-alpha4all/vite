@@ -16,6 +16,15 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
+        path: "/landing",
+        name: "landing",
+        component: () => import("@/views/Landing.vue"),
+        meta: {
+          pageTitle: "landing",
+          breadcrumbs: ["Landing"],
+        },
+      },
+      {
         path: "/dashboard",
         name: "dashboard",
         component: () => import("@/views/Dashboard.vue"),
@@ -406,7 +415,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
     ],
-  },
+  }/*,
   {
     path: "/",
     component: () => import("@/layouts/AuthLayout.vue"),
@@ -466,7 +475,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/:pathMatch(.*)*",
     redirect: "/404",
-  },
+  },*/
 ];
 
 const router = createRouter({
@@ -490,7 +499,7 @@ const router = createRouter({
   },
 });
 
-router.beforeEach((to, from, next) => {
+/*router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   const configStore = useConfigStore();
 
@@ -513,6 +522,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-});
+});*/
 
 export default router;
