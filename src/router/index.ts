@@ -187,6 +187,17 @@ router.beforeEach((to, from, next) => {
             });              
         }
 
+        if (!["subscriber", "admin", "superadmin"].includes(user.role) && ["/exercises", "/playback"].includes(to.path)) {
+          console.log("Going to landing page.");
+          return next({ path: "/landing" });
+        }
+
+        if (!["superadmin"].includes(user.role) && ["/admin"].includes(to.path)) {
+          console.log("Going to landing page.");
+          return next({ path: "/landing" });
+        }
+        
+
       });
     }else {
       console.log("else starting.");
