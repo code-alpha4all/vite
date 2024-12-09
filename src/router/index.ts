@@ -9,6 +9,7 @@ import * as fb from "@/firebase";
 import { auth } from "@/firebase";
 import store from "@/store";
 import generalForm from "@/store/generalFormModule";
+import axios from 'axios';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -227,13 +228,13 @@ router.beforeEach((to, from, next) => {
         if (requiresAuth && !isAuthenticated) {
           next("/auth");
         } else {
-          //  console.log("to.query.storageID=", to.query.storageID);
+          console.log("to.query.storageID=", to.query.storageID);
 
           if (typeof to.query.storageID !== "undefined") {
             let storage = fb.storage;
             let path = to.query.storageID + ".json";
             let pathReference = storage.ref(path);
-            // console.log("pathReference=", pathReference);
+            console.log("pathReference=", pathReference);
 
             pathReference.getDownloadURL().then((url) => {
               console.log("url=", url);
