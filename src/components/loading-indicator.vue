@@ -14,8 +14,8 @@
 </template>
 
 <script>
-module.exports = {
-  computed: {
+    export default {
+      computed: {
     numberOfAjaxCalls() {
       return this.$store.state.numberOfAjaxCalls;
     }

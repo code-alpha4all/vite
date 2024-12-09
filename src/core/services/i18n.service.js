@@ -1,6 +1,9 @@
+import.meta.env.BASE_URL;
+
 const i18nService = {
   test: (function(){ 
-    console.log('i18nService starting. process.env.BASE_URL + "media/svg/flags/226-united-states.svg"=', process.env.BASE_URL + "media/svg/flags/226-united-states.svg");
+    console.log("testing");
+    console.log('i18nService starting. import.meta.env.BASE_URL + "media/svg/flags/226-united-states.svg"=', import.meta.env.BASE_URL + "media/svg/flags/226-united-states.svg");
   })(),
   defaultLanguage: "en",
 
@@ -8,22 +11,22 @@ const i18nService = {
     {
       lang: "en",
       name: "English",
-      flag: process.env.BASE_URL + "media/svg/flags/226-united-states.svg"
+      flag: import.meta.env.BASE_URL + "media/svg/flags/226-united-states.svg"
     },
     {
       lang: "es",
       name: "Español",
-      flag: process.env.BASE_URL + "media/svg/flags/128-spain.svg"
+      flag: import.meta.env.BASE_URL + "media/svg/flags/128-spain.svg"
     },
     {
       lang: "de",
       name: "Deutsch",
-      flag: process.env.BASE_URL + "media/svg/flags/162-germany.svg"
+      flag: import.meta.env.BASE_URL + "media/svg/flags/162-germany.svg"
     },
     {
       lang: "it",
       name: "Italiano",
-      flag: process.env.BASE_URL + "media/svg/flags/013-italy.svg"
+      flag: import.meta.env.BASE_URL + "media/svg/flags/013-italy.svg"
     }
   ].sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1),
 
