@@ -66,12 +66,16 @@
     "vue-inline-svg": "^3.1.0",
     "vue-router": "^4.5.0",
     "vue-stripe": "^0.1.52",
+    "vue-tour": "^2.0.0",
+    "vue-tree-list": "^1.5.0",
+    "vue-tree-list-modified-for-saved-charts": "file:dependencies/vue-tree-list-modified-for-saved-charts",
     "vue3-apexcharts": "^1.4.4",
     "vuex": "^4.0.2",
     "vuexfire": "^3.2.5",
     "yup": "^1.2.0"
   },
   "devDependencies": {
+    "@iconify/vue2": "^2.0.1",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/array-sort": "^1.0.0",
     "@types/bootstrap": "^5.2.6",
