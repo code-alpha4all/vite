@@ -59,7 +59,7 @@ import 'firebase/compat/auth';
 import * as firebaseui from 'firebaseui' // See https://github.com/isamu/firebase-vue-startup-kit/issues/1
 import 'firebaseui/dist/firebaseui.css'
 import * as fb from '@/firebase.js'
-import router from '@/router.js'
+//import router from '@/router.js'
 
 export default {
   name: 'LoginForm',
@@ -112,9 +112,9 @@ export default {
                 .then(() => {
                   console.log("that.$store=", that.$store);
 
-                  if (router.currentRoute.path === '/auth') {
+                /*  if (router.currentRoute.path === '/auth') {
                     router.push('/tabs').catch(() => {});
-                  }
+                  }*/
                 });              
             }
           });
