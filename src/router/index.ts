@@ -196,7 +196,35 @@ router.beforeEach((to, from, next) => {
           console.log("Going to landing page.");
           return next({ path: "/landing" });
         }
-        
+
+        if ("subscriber" == user.role) {
+          // Check Subscription
+          var hasActiveSub = false;
+          var subs = user.subscriptions;
+          if (subs != undefined) {
+            subs.forEach((el) => {
+              let subData = el.data;
+              if (el.name == "scarrcharts") {
+                subData.forEach((el2) => {
+                  let expirationDate = new Date(el2.expDate.seconds * 1000);
+                  expirationDate.setDate(expirationDate.getDate() + 1);
+                  let today = new Date();
+                  if (!hasActiveSub && expirationDate >= today) {
+                    hasActiveSub = true;
+                  }
+                });
+              }
+            });
+          }
+          if (!hasActiveSub) {
+            store.commit("user/setRole", "guest");
+          } else {
+            // IT'S NECESSARY - DON'T REMOVE
+            store.commit("user/setRole", "subscriber");
+          }
+        }
+
+
 
       });
     }else {
