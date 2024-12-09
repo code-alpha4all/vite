@@ -224,7 +224,30 @@ router.beforeEach((to, from, next) => {
           }
         }
 
+        if (requiresAuth && !isAuthenticated) {
+          next("/auth");
+        } else {
+          //  console.log("to.query.storageID=", to.query.storageID);
 
+          if (typeof to.query.storageID !== "undefined") {
+            let storage = fb.storage;
+            let path = to.query.storageID + ".json";
+            let pathReference = storage.ref(path);
+            // console.log("pathReference=", pathReference);
+
+            pathReference.getDownloadURL().then((url) => {
+              console.log("url=", url);
+              axios.get(url).then((apiResponse) => {
+                // store.commit('decrementNumberOfAjaxCalls');
+                console.log("apiResponse=", apiResponse);
+                let data = apiResponse.data;
+                console.log(" data=", data);
+              });
+            });
+          }
+
+          next();
+        }
 
       });
     }else {
