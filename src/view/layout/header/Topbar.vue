@@ -449,7 +449,7 @@
     import KTDropdownLanguage from "@/view/layout/extras/dropdown/DropdownLanguage.vue";
     import * as fb from "@/firebase";
     import { StripeCheckout } from "@vue-stripe/vue-stripe";
-    import i18nService from "@/core/services/i18n.service.js";
+    //import i18nService from "@/core/services/i18n.service.js";
     import loadingIndicator from "@/components/loading-indicator";
     import { Icon } from '@iconify/vue2';
     import commoditySpecsTable from '@/components/commodity-specs-table';

@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     redirect: "/landing",
-    component: () => import("@/layouts/default-layout/DefaultLayout.vue"),
+    component: () => import("@/view/layout/Layout.vue"),
     meta: {
       // middleware: "auth",
       requiresAuth: true

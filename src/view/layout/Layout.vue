@@ -59,7 +59,7 @@
 
 <script>
 
-    import topbar from '@/view/layout/header/Topbar';
+    import topbar from '@/view/layout/header/Topbar.vue';
     //import Loader from "@/view/content/Loader.vue";
     import * as fb from '@/firebase';
     import moment from "moment";
