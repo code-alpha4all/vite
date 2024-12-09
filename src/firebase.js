@@ -6,6 +6,8 @@ import 'firebase/compat/functions';
 import 'firebase/compat/storage';
 import 'firebase/compat/analytics';
 
+console.log("firebase.js starting.");
+
 // firebase init
 let firebaseConfig = {
     apiKey: "AIzaSyApnZly0Ilfc4RwQ7SRasP_vrWIjDeGquw",
